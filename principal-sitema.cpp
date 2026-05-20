@@ -25,10 +25,32 @@ int main()
     for (int i = 0; i < qtdAlunos; i++)
     {
         cout << "Nome do Aluno: " << i + 1 << ": ";
-        getline(cin, nomes[i]); // se a pessoa tiver nome composto o getline pega a lnha toda ja o cin ele separa
+        getline(cin, nomes[i]); // se a pessoa tiver nome composto o getline pega a linha toda ja o cin ele separa
     }
 
-    // SAIDA
+    do
+    {
+        cout << "Quantiade de disciplinas ( 1 a 5 ): " << endl;
+        cin >> qtdDisciplinas;
+    } while (qtdDisciplinas < 1 || qtdDisciplinas > 5);
+
+    for (int i = 0; i < qtdDisciplinas; i++)
+    {
+        cout << "\nNotas de " << nomes[i] << ":" << endl;
+        float soma = 0;
+        for (int j = 0; j < qtdDisciplinas; j++)
+        {
+            do
+            {
+                cout << "Disciplina " << j + 1 << "(1 a 5): ";
+                cin >> notas[i][j];
+            } while (notas[i][j] < 1 || notas[i][j] > 10);
+            soma += notas[i][j];
+        }
+        media[i] = soma / qtdDisciplinas;
+    }
+
+    // SAÍDA
 
     cout << "\nAlunos Cadastrados: " << endl;
     for (int i = 0; i < qtdAlunos; i++)
