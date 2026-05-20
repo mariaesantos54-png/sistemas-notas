@@ -9,6 +9,9 @@ int main()
 
     string nomes[20];
     int qtdAlunos;
+    float notas[i][j];
+    float media[20];
+    int qtdDisciplinas;
 
     // PROCESSAM4NTO
 
@@ -58,5 +61,31 @@ int main()
         cout << " " << i + 1 << ". " << nomes[i] << endl;
     }
 
-    return 0;
+    cout << "\n======Relatorio ========" << endl;
+    int aprovados = 0, recuperaçao = 0, reprovados = 0;
+
+    for (int i = 0; i < qtdDisciplinas; i++)
+    {
+        cout << nomes[i] << " - Media: " << media[i] << " - ";
+        if (media[i] >= 7)
+        {
+            cout << "Aprovado" << endl;
+            aprovados++;
+        }
+        else if (media[i] >= 5)
+        {
+            cout << "Recuperaçao: " << endl;
+            recuperaçao++;
+        }
+        else {
+            cout << "Reprovado" << endl;
+            reprovados++;
+        }
+    }
+
+    cout << "\nResumo: " << aprovados << "Aprovados, " << recuperaçao << "Recuperaçao, " << reprovados << "Reprovados, " << endl;
+    
+
+
+return 0;
 }
