@@ -13,10 +13,33 @@ int main()
     float notas[20][5];
     float media[20];
     int qtdDisciplinas;
+    int opcaoInicial;
 
     // PROCESSAM4NTO
     // leitura de alunos( Comit 1)
     cout << "===== SISTEMA DE NOTAS v4.0 =====" << endl;
+    cout << "1 - Novo Relatório" << endl;
+    cout << "2 - Ver relatório salvo" << endl;
+    cout << "Escolha uma opacao: " << endl;
+    cin >> opcaoInicial;
+
+    // LEITURA DE ARQUIVO (COMIT 5)
+    if (opcaoInicial == 2)
+    {
+        ifstream leitura("Relatorio.txt");
+        if (leitura.is_open())
+            {
+                string linha;
+                cout << "\n";
+                while (getline(leitura, linha))
+                {
+                    cout << linha << endl;
+                }
+                leitura.close();
+            } else{
+                cout << "Nenhum relatorio encontrado." << endl;
+            }
+    }
 
     do
     {
