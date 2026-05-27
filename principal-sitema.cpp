@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 int main()
@@ -9,12 +10,12 @@ int main()
 
     string nomes[20];
     int qtdAlunos;
-    float notas[i][j];
+    float notas[20][5];
     float media[20];
     int qtdDisciplinas;
 
     // PROCESSAM4NTO
-
+    // leitura de alunos( Comit 1)
     cout << "===== SISTEMA DE NOTAS v4.0 =====" << endl;
 
     do
@@ -31,6 +32,7 @@ int main()
         getline(cin, nomes[i]); // se a pessoa tiver nome composto o getline pega a linha toda ja o cin ele separa
     }
 
+    // notas e medias (comit 2)
     do
     {
         cout << "Quantiade de disciplinas ( 1 a 5 ): " << endl;
@@ -61,6 +63,7 @@ int main()
         cout << " " << i + 1 << ". " << nomes[i] << endl;
     }
 
+    // classificaçãoe relatori (comit 3)
     cout << "\n======Relatorio ========" << endl;
     int aprovados = 0, recuperaçao = 0, reprovados = 0;
 
@@ -77,15 +80,44 @@ int main()
             cout << "Recuperaçao: " << endl;
             recuperaçao++;
         }
-        else {
+        else
+        {
             cout << "Reprovado" << endl;
             reprovados++;
         }
     }
 
     cout << "\nResumo: " << aprovados << "Aprovados, " << recuperaçao << "Recuperaçao, " << reprovados << "Reprovados, " << endl;
-    
 
+    ofstream arquivo("relatório.txt");
 
-return 0;
+    if (arquivo.is_open())
+    {
+        arquivo << "====RELATÓRIO====" << endl;
+        for (int i = 0; i < qtdAlunos; i++)
+        {
+            arquivo << nomes[i] << " - Média: " << media[i] << " - ";
+            if (media[i] >= 7)
+            {
+                arquivo << "Aprovado" << endl;
+            }
+            else if (media[i] >= 5)
+            {
+                arquivo << "Recuperação" << endl;
+            }
+            else
+            {
+                arquivo << "Reprovado" << endl;
+            }
+        }
+        arquivo << "\nResumo: " << aprovados << "aprovados, " << recuperaçao << "em recuperaçao" << reprovados << "reporvados" << endl;
+
+        arquivo.close();
+        cout << "\nRelatório sem em relatório.txt" << endl;
+    }
+    else
+    {
+        cout << "Erro ao criar arquivo. " << endl;
+    }
+    return 0;
 }
