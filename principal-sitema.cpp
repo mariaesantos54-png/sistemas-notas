@@ -17,17 +17,20 @@ int main()
 
     // PROCESSAM4NTO
     // leitura de alunos( Comit 1)
-    cout << "===== SISTEMA DE NOTAS v4.0 =====" << endl;
-    cout << "1 - Novo Relatório" << endl;
-    cout << "2 - Ver relatório salvo" << endl;
-    cout << "Escolha uma opacao: " << endl;
-    cin >> opcaoInicial;
-
-    // LEITURA DE ARQUIVO (COMIT 5)
-    if (opcaoInicial == 2)
+    do
     {
-        ifstream leitura("Relatorio.txt");
-        if (leitura.is_open())
+        cout << "===== SISTEMA DE NOTAS v4.0 =====" << endl;
+        cout << "1 - Novo Relatorio" << endl;
+        cout << "2 - Ver relatorio salvo" << endl;
+        cout << "3 - Sobre o sistema" << endl;
+        cout << "Escolha uma opacao: " << endl;
+        cin >> opcaoInicial;
+
+        // LEITURA DE ARQUIVO (COMIT 5)
+        if (opcaoInicial == 2)
+        {
+            ifstream leitura("Relatorio.txt");
+            if (leitura.is_open())
             {
                 string linha;
                 cout << "\n";
@@ -36,11 +39,24 @@ int main()
                     cout << linha << endl;
                 }
                 leitura.close();
-            } else{
+            }
+            else
+            {
                 cout << "Nenhum relatorio encontrado." << endl;
             }
-    }
+        }
 
+        if (opcaoInicial == 3)
+        {
+            cout << "\n=== SOBRE O SISTEMA ===" << endl;
+            cout << "Sistemas de notas v4.0" << endl;
+            cout << "Desenvolvido por: Maria Eduarda Pereira Dos Santos" << endl;
+            cout << " Turma: LOPAL 2026 - SEANAI-SP3" << endl;
+            cout << endl;
+        }
+
+    } while (opcaoInicial != 1);
+    
     do
     {
         cout << "Qunatidade de alunos ( 1 a 20): ";
@@ -112,11 +128,11 @@ int main()
 
     cout << "\nResumo: " << aprovados << "Aprovados, " << recuperaçao << "Recuperaçao, " << reprovados << "Reprovados, " << endl;
 
-    ofstream arquivo("relatório.txt");
+    ofstream arquivo("relatorio.txt");
 
     if (arquivo.is_open())
     {
-        arquivo << "====RELATÓRIO====" << endl;
+        arquivo << "====RELATORIO====" << endl;
         for (int i = 0; i < qtdAlunos; i++)
         {
             arquivo << nomes[i] << " - Média: " << media[i] << " - ";
@@ -136,7 +152,7 @@ int main()
         arquivo << "\nResumo: " << aprovados << "aprovados, " << recuperaçao << "em recuperaçao" << reprovados << "reporvados" << endl;
 
         arquivo.close();
-        cout << "\nRelatório sem em relatório.txt" << endl;
+        cout << "\nRelatório sem em relatorio.txt" << endl;
     }
     else
     {
