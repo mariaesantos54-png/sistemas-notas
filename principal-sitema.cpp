@@ -71,8 +71,16 @@ int main()
 
     for (int i = 0; i < qtdAlunos; i++)
     {
-        cout << "Nome do Aluno: " << i + 1 << ": ";
-        getline(cin, nomes[i]); // se a pessoa tiver nome composto o getline pega a linha toda ja o cin ele separa
+        do
+        {
+            cout << "Digite o nome do aluno: ";
+            getline(cin, nomes[i]);
+
+            if (nomes[i] == "")
+            {
+                cout << "Nome nao pode ficar em branco. Tente Novamente.\n";
+            }
+        } while (nomes[i] == "");
     }
 
     // notas e medias (comit 2)
