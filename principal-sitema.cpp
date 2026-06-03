@@ -1,32 +1,31 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <ctime>
 #include <windows.h>
+#include <ctime>
 using namespace std;
 
 int main()
 {
+    SetConsoleOutputCP(65001);
 
     // ENTRADA (declara as variáveis)
-
     string nomes[20];
-    int qtdAlunos;
-    float notas[20][5];
-    float media[20];
+    int qtdAlunos = 0; 
+    float media[20] = {0}; 
     int qtdDisciplinas;
     int opcaoInicial;
+    float notas[20][5];
 
-    // PROCESSAM4NTO
+    // PROCESSAMENTO
     // leitura de alunos( Comit 1)
     do
     {
-        SetConsoleOutputCP(65001);
-
-        cout << "===== SISTEMA DE NOTAS v4.0 =====" << endl;
+        cout << "===== SISTEMA DE NOTAS v4.1 =====" << endl;
         cout << "1 - Novo Relatorio" << endl;
-        cout << "2 - Ver relatorio salvo " << endl;
+        cout << "2 - Ver relatorio salvo" << endl;
         cout << "3 - Sobre o sistema" << endl;
+        cout << "4 - Relatorio de reprovados" << endl; // --- SEÇÃO MODIFICADA (OPCIONAL C) ---
         cout << "Escolha uma opacao: " << endl;
         cin >> opcaoInicial;
 
@@ -54,43 +53,76 @@ int main()
         {
             cout << "\n=== SOBRE O SISTEMA ===" << endl;
             cout << "Sistemas de notas v4.0" << endl;
-            cout << "Desenvolvido por: Maria Eduarda Pereira Dos Santos" << endl;
-            cout << " Turma: LOPAL 2026 - SEANAI-SP" << endl;
+            cout << "Desenvolvido por: Isa Ferreira da Silva" << endl;
+            cout << " Turma: LOPAL 2026 - SENAI-SP" << endl;
             cout << endl;
+        }
+
+        // --- SEÇÃO MODIFICADA: LOGICA DA OPÇÃO 4 (OPCIONAL C) ---
+        if (opcaoInicial == 4)
+        {
+            ofstream arqReprovados("reprovados.txt");
+            if (arqReprovados.is_open())
+            {
+                arqReprovados << "==== RELATÓRIO DE REPROVADOS ====" << endl;
+                int contReprovados = 0;
+
+                for (int i = 0; i < qtdAlunos; i++)
+                {
+                    if (media[i] < 5 && nomes[i] != "")
+                    {
+                        arqReprovados << "Aluno: " << nomes[i] << " - Média: " << media[i] << endl;
+                        contReprovados++;
+                    }
+                }
+                
+                if (contReprovados == 0)
+                {
+                    arqReprovados << "Nenhum aluno reprovado cadastrado nesta sessão." << endl;
+                }
+
+                arqReprovados.close();
+                cout << "\nArquivo 'reprovados.txt' gerado com sucesso!" << endl;
+            }
+            else
+            {
+                cout << "Erro ao criar o arquivo de reprovados." << endl;
+            }
         }
 
     } while (opcaoInicial != 1);
 
     do
     {
-        cout << "Qunatidade de alunos ( 1 a 20): ";
+        cout << "Quantidade de alunos ( 1 a 20): ";
         cin >> qtdAlunos;
     } while (qtdAlunos < 1 || qtdAlunos > 20);
 
-    cin.ignore(); // se tiver coisa separada ele ignora
+    cin.ignore(); 
 
+    //Nome em branco
     for (int i = 0; i < qtdAlunos; i++)
     {
-        do
+        do 
         {
-            cout << "Digite o nome do aluno: ";
+            cout << "Nome do Aluno " << i + 1 << ": ";
             getline(cin, nomes[i]);
 
-            if (nomes[i] == "")
+            if (nomes[i] == "") 
             {
-                cout << "Nome nao pode ficar em branco. Tente Novamente.\n";
+                cout << "Erro: O nome nao pode ser vazio! Tente novamente.\n";
             }
-        } while (nomes[i] == "");
+        } while (nomes[i] == ""); 
     }
 
     // notas e medias (comit 2)
     do
     {
-        cout << "Quantiade de disciplinas ( 1 a 5 ): " << endl;
+        cout << "Quantidade de disciplinas ( 1 a 5): " << endl; // Ajustado de acordo com o limite do vetor notas[20][5]
         cin >> qtdDisciplinas;
-    } while (qtdDisciplinas < 1 || qtdDisciplinas > 5);
+    } while (qtdDisciplinas < 1 || qtdDisciplinas > 5); 
 
-    for (int i = 0; i < qtdDisciplinas; i++)
+    for (int i = 0; i < qtdAlunos; i++)
     {
         cout << "\nNotas de " << nomes[i] << ":" << endl;
         float soma = 0;
@@ -98,7 +130,7 @@ int main()
         {
             do
             {
-                cout << "Disciplina " << j + 1 << "(1 a 5): ";
+                cout << "Disciplina " << j + 1 << " (1 a 10): ";
                 cin >> notas[i][j];
             } while (notas[i][j] < 1 || notas[i][j] > 10);
             soma += notas[i][j];
@@ -114,11 +146,14 @@ int main()
         cout << " " << i + 1 << ". " << nomes[i] << endl;
     }
 
-    // classificaçãoe relatori (comit 3)
-    cout << "\n======Relatorio ========" << endl;
-    int aprovados = 0, recuperaçao = 0, reprovados = 0;
+    // classificação e relatorio (comit 3)
+    cout << "\n====== Relatorio ========" << endl;
+    int aprovados = 0, recuperacao = 0, reprovados = 0;
 
-    for (int i = 0; i < qtdDisciplinas; i++)
+    int indiceMaior = 0;
+    int indiceMenor = 0;
+
+    for (int i = 0; i < qtdAlunos; i++)
     {
         cout << nomes[i] << " - Media: " << media[i] << " - ";
         if (media[i] >= 7)
@@ -128,27 +163,40 @@ int main()
         }
         else if (media[i] >= 5)
         {
-            cout << "Recuperaçao: " << endl;
-            recuperaçao++;
+            cout << "Recuperaçao" << endl;
+            recuperacao++;
         }
         else
         {
             cout << "Reprovado" << endl;
             reprovados++;
         }
+
+        // --- CORREÇÃO DE SINTAXE DAS CHAVES (MAIOR/MENOR) ---
+        if (media[i] > media[indiceMaior])
+        {
+            indiceMaior = i; 
+        }
+        if (media[i] < media[indiceMenor])
+        {
+            indiceMenor = i; 
+        }
     }
 
-    cout << "\nResumo: " << aprovados << "Aprovados, " << recuperaçao << "Recuperaçao, " << reprovados << "Reprovados, " << endl;
+    // Exibe o resumo na tela
+    cout << "\nResumo: " << aprovados << " Aprovados, " << recuperacao << " Recuperação, " << reprovados << " Reprovados" << endl;
 
+    cout << "Maior media: " << nomes[indiceMaior] << " (" << media[indiceMaior] << ")" << endl;
+    cout << "Menor media: " << nomes[indiceMenor] << " (" << media[indiceMenor] << ")" << endl;
+    
     ofstream arquivo("relatorio.txt");
 
     if (arquivo.is_open())
     {
-        // Dentro da parte que salva o arquivo:
         time_t agora = time(0);
         char *dataHora = ctime(&agora);
         arquivo << "Data do relatorio: " << dataHora << endl;
-
+        
         arquivo << "====RELATORIO====" << endl;
         for (int i = 0; i < qtdAlunos; i++)
         {
@@ -166,10 +214,12 @@ int main()
                 arquivo << "Reprovado" << endl;
             }
         }
-        arquivo << "\nResumo: " << aprovados << "aprovados, " << recuperaçao << "em recuperaçao" << reprovados << "reporvados" << endl;
+        arquivo << "\nResumo: " << aprovados << " aprovados, " << recuperacao << " em recuperacao, " << reprovados << " reprovados" << endl;
+        arquivo << "Maior media: " << nomes[indiceMaior] << " (" << media[indiceMaior] << ")" << endl;
+        arquivo << "Menor media: " << nomes[indiceMenor] << " (" << media[indiceMenor] << ")" << endl;
 
         arquivo.close();
-        cout << "\nRelatório sem em relatorio.txt" << endl;
+        cout << "\nRelatório salvo em relatorio.txt" << endl;
     }
     else
     {
