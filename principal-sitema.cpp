@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <ctime>
+#include <windows.h>
 using namespace std;
 
 int main()
@@ -20,9 +21,11 @@ int main()
     // leitura de alunos( Comit 1)
     do
     {
+        SetConsoleOutputCP(65001);
+
         cout << "===== SISTEMA DE NOTAS v4.0 =====" << endl;
         cout << "1 - Novo Relatorio" << endl;
-        cout << "2 - Ver relatorio salvo" << endl;
+        cout << "2 - Ver relatorio salvo " << endl;
         cout << "3 - Sobre o sistema" << endl;
         cout << "Escolha uma opacao: " << endl;
         cin >> opcaoInicial;
@@ -52,7 +55,7 @@ int main()
             cout << "\n=== SOBRE O SISTEMA ===" << endl;
             cout << "Sistemas de notas v4.0" << endl;
             cout << "Desenvolvido por: Maria Eduarda Pereira Dos Santos" << endl;
-            cout << " Turma: LOPAL 2026 - SEANAI-SP3" << endl;
+            cout << " Turma: LOPAL 2026 - SEANAI-SP" << endl;
             cout << endl;
         }
 
@@ -137,7 +140,7 @@ int main()
         time_t agora = time(0);
         char *dataHora = ctime(&agora);
         arquivo << "Data do relatorio: " << dataHora << endl;
-       
+
         arquivo << "====RELATORIO====" << endl;
         for (int i = 0; i < qtdAlunos; i++)
         {
