@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 using namespace std;
 
 int main()
@@ -56,7 +57,7 @@ int main()
         }
 
     } while (opcaoInicial != 1);
-    
+
     do
     {
         cout << "Qunatidade de alunos ( 1 a 20): ";
@@ -132,6 +133,11 @@ int main()
 
     if (arquivo.is_open())
     {
+        // Dentro da parte que salva o arquivo:
+        time_t agora = time(0);
+        char *dataHora = ctime(&agora);
+        arquivo << "Data do relatorio: " << dataHora << endl;
+       
         arquivo << "====RELATORIO====" << endl;
         for (int i = 0; i < qtdAlunos; i++)
         {
@@ -142,7 +148,7 @@ int main()
             }
             else if (media[i] >= 5)
             {
-                arquivo << "Recuperação" << endl;
+                arquivo << "Recuperaçao" << endl;
             }
             else
             {
